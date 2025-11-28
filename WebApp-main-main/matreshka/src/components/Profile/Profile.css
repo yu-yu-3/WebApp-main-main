@@ -1,0 +1,1121 @@
+.profile-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background-color: white;
+  min-height: 80vh;
+}
+
+.profile-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #eee;
+}
+
+.profile-header h2 {
+  color: #8B0000;
+  margin-bottom: 30px;
+  font-size: 32px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.user-avatar {
+  width: 80px;
+  height: 80px;
+  background-color: #8B0000;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.user-details h3 {
+  color: #333;
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+
+.user-details p {
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.user-role {
+  color: #8B0000 !important;
+  font-weight: bold;
+}
+
+.registration-date {
+  font-size: 14px;
+  color: #888 !important;
+  font-style: italic;
+}
+
+/* Стили для бейджей ролей */
+.role-badge {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 5px 0;
+}
+
+.role-admin {
+  background: linear-gradient(135deg, #ffd700, #ff6b00);
+  color: #000;
+  box-shadow: 0 2px 8px rgba(255, 107, 0, 0.3);
+}
+
+.role-moderator {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
+}
+
+.role-staff {
+  background: linear-gradient(135deg, #a8ff78, #78ffd6);
+  color: #000;
+  box-shadow: 0 2px 8px rgba(168, 255, 120, 0.3);
+}
+
+.role-courier {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #000;
+  box-shadow: 0 2px 8px rgba(255, 154, 158, 0.3);
+}
+
+.role-user {
+  background: linear-gradient(135deg, #8B0000, #A52A2A);
+  color: white;
+  box-shadow: 0 2px 8px rgba(139, 0, 0, 0.3);
+}
+
+.user-restaurant,
+.user-position {
+  background: #f8f8f8;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border-left: 3px solid #8B0000;
+  font-size: 14px;
+  margin: 5px 0;
+}
+
+/* Панели для разных ролей */
+.role-panel {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+
+.role-panel h4 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.admin-panel {
+  border-top: 4px solid #ffd700;
+  background: linear-gradient(135deg, #fffaf0, #fff5e6);
+}
+
+.moderator-panel {
+  border-top: 4px solid #4facfe;
+  background: linear-gradient(135deg, #f0f8ff, #e6f7ff);
+}
+
+.staff-panel {
+  border-top: 4px solid #a8ff78;
+  background: linear-gradient(135deg, #f0fff0, #e6ffe6);
+}
+
+.courier-panel {
+  border-top: 4px solid #ff9a9e;
+  background: linear-gradient(135deg, #fff0f0, #ffe6e6);
+}
+
+/* Кнопки действий для ролей */
+.admin-actions,
+.moderator-actions,
+.staff-actions,
+.courier-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.admin-btn,
+.moderator-btn,
+.staff-btn,
+.courier-btn {
+  padding: 15px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 60px;
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, #ffd700, #ffa500);
+  color: #000;
+  border: 1px solid #ffd700;
+}
+
+.admin-btn:hover {
+  background: linear-gradient(135deg, #ffa500, #ffd700);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+}
+
+.moderator-btn {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  border: 1px solid #4facfe;
+}
+
+.moderator-btn:hover {
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+}
+
+.staff-btn {
+  background: linear-gradient(135deg, #a8ff78, #78ffd6);
+  color: #000;
+  border: 1px solid #a8ff78;
+}
+
+.staff-btn:hover {
+  background: linear-gradient(135deg, #78ffd6, #a8ff78);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(168, 255, 120, 0.4);
+}
+
+.courier-btn {
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  color: #000;
+  border: 1px solid #ff9a9e;
+}
+
+.courier-btn:hover {
+  background: linear-gradient(135deg, #fad0c4, #ff9a9e);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+}
+
+.staff-info,
+.courier-info {
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  border-left: 3px solid #8B0000;
+}
+
+.staff-info p,
+.courier-info p {
+  margin: 5px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.loyalty-program {
+  background: linear-gradient(135deg, #8B0000, #A52A2A);
+  color: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.loyalty-program h4 {
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+
+.points-balance .points {
+  display: block;
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.points-info {
+  margin-top: 10px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.profile-tabs {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tab {
+  padding: 15px 25px;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #666;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tab.active {
+  color: #8B0000;
+  border-bottom-color: #8B0000;
+}
+
+.tab:hover:not(.active) {
+  color: #8B0000;
+}
+
+.tab-content {
+  min-height: 400px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.empty-state h4 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.empty-state p {
+  margin-bottom: 25px;
+  font-size: 16px;
+}
+
+.primary-btn {
+  padding: 12px 30px;
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+  background-color: #A52A2A;
+}
+
+/* Стили для бронирований */
+.bookings-grid,
+.orders-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-card,
+.order-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 25px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  transition: transform 0.2s ease;
+}
+
+.booking-card:hover,
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.booking-info,
+.order-info {
+  flex: 1;
+}
+
+.booking-info h4,
+.order-info h4 {
+  color: #8B0000;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.booking-info p,
+.order-info p {
+  color: #666;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.order-items ul {
+  list-style: none;
+  padding: 0;
+  margin: 5px 0;
+}
+
+.order-items li {
+  padding: 2px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 10px;
+}
+
+.status.confirmed {
+  background-color: #e8f5e8;
+  color: #4caf50;
+}
+
+.status.pending {
+  background-color: #fff8e1;
+  color: #ffa000;
+}
+
+.status.delivered {
+  background-color: #e8f5e8;
+  color: #4caf50;
+}
+
+.status.cooking {
+  background-color: #e3f2fd;
+  color: #2196f3;
+}
+
+.status.on_way {
+  background-color: #fff3e0;
+  color: #ff9800;
+}
+
+.booking-actions,
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 120px;
+}
+
+.edit-btn,
+.repeat-order-btn,
+.details-btn {
+  padding: 8px 16px;
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.edit-btn:hover,
+.repeat-order-btn:hover,
+.details-btn:hover {
+  background-color: #A52A2A;
+}
+
+.cancel-btn {
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #666;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cancel-btn:hover {
+  border-color: #8B0000;
+  color: #8B0000;
+}
+
+/* Стили для настроек */
+.settings-form {
+  max-width: 600px;
+}
+
+.settings-form h3 {
+  color: #8B0000;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+.settings-form .form-group {
+  margin-bottom: 25px;
+}
+
+.settings-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.settings-form input[type="text"],
+.settings-form input[type="email"],
+.settings-form input[type="tel"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.settings-form input:focus {
+  outline: none;
+  border-color: #8B0000;
+}
+
+.preferences {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.checkbox-label input {
+  width: auto;
+}
+
+.save-btn {
+  padding: 12px 30px;
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #A52A2A;
+}
+
+/* Стили для модерации отзывов */
+.moderation-tab {
+  padding: 20px 0;
+}
+
+.moderation-header {
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
+}
+
+.moderation-header h3 {
+  color: #8B0000;
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.moderation-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.moderation-filters .filter-btn {
+  padding: 10px 20px;
+  border: 2px solid #ddd;
+  background: white;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.moderation-filters .filter-btn.active {
+  border-color: #8B0000;
+  background: #8B0000;
+  color: white;
+}
+
+.moderation-filters .filter-btn:hover:not(.active) {
+  border-color: #8B0000;
+  color: #8B0000;
+}
+
+.moderation-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.moderation-review-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.moderation-review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.moderation-review-card .review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+
+.moderation-review-card .reviewer-info {
+  flex: 1;
+}
+
+.moderation-review-card .reviewer-info strong {
+  color: #333;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.moderation-review-card .review-date {
+  color: #666;
+  font-size: 12px;
+}
+
+.moderation-review-card .review-rating {
+  color: #FFD700;
+  font-size: 18px;
+}
+
+.moderation-review-card .review-restaurant {
+  color: #8B0000;
+  font-weight: 600;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.moderation-review-card .review-comment {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 14px;
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #8B0000;
+}
+
+.moderation-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+  gap: 15px;
+}
+
+.moderation-actions .status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.moderation-actions .status-badge.pending {
+  background: #fff8e1;
+  color: #ffa000;
+}
+
+.moderation-actions .status-badge.approved {
+  background: #e8f5e8;
+  color: #4caf50;
+}
+
+.moderation-actions .status-badge.rejected {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.approve-btn,
+.reject-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 120px;
+  justify-content: center;
+}
+
+.approve-btn {
+  background: linear-gradient(135deg, #4caf50, #45a049);
+  color: white;
+}
+
+.approve-btn:hover {
+  background: linear-gradient(135deg, #45a049, #4caf50);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+.reject-btn {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+}
+
+.reject-btn:hover {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+}
+
+.no-reviews {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+  background: #f8f8f8;
+  border-radius: 12px;
+  border: 2px dashed #ddd;
+}
+
+/* Стили для отзывов пользователя */
+.reviews-tab {
+  padding: 20px 0;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #eee;
+}
+
+.reviews-header h3 {
+  color: #8B0000;
+  margin: 0;
+  font-size: 24px;
+}
+
+.write-review-btn {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #8B0000, #A52A2A);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.write-review-btn:hover {
+  background: linear-gradient(135deg, #A52A2A, #8B0000);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(139, 0, 0, 0.3);
+}
+
+.reviews-content {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.reviews-stats {
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #8B0000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.reviews-stats p {
+  color: #333;
+  font-size: 14px;
+  margin: 0;
+}
+
+.reviews-stats strong {
+  color: #8B0000;
+}
+
+.reviews-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+
+.review-title {
+  flex: 1;
+}
+
+.review-title h4 {
+  color: #8B0000;
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.review-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stars {
+  color: #FFD700;
+  font-size: 18px;
+}
+
+.rating-number {
+  color: #666;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.review-status {
+  flex-shrink: 0;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-badge.approved {
+  background: #e8f5e8;
+  color: #4caf50;
+}
+
+.status-badge.pending {
+  background: #fff8e1;
+  color: #ffa000;
+}
+
+.status-badge.rejected {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.review-content {
+  margin-bottom: 20px;
+}
+
+.review-comment {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  font-size: 14px;
+  background: #f8f8f8;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #8B0000;
+}
+
+.review-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #666;
+  font-size: 12px;
+}
+
+.review-likes {
+  background: #e8f5e8;
+  padding: 4px 8px;
+  border-radius: 12px;
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.review-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.edit-btn {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #1976D2, #2196F3);
+  transform: translateY(-1px);
+}
+
+.delete-btn {
+  background: linear-gradient(135deg, #f44336, #d32f2f);
+  color: white;
+}
+
+.delete-btn:hover {
+  background: linear-gradient(135deg, #d32f2f, #f44336);
+  transform: translateY(-1px);
+}
+
+.save-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.save-btn:disabled:hover {
+  background-color: #cccccc;
+}
+
+/* Анимация для кнопки сохранения */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.save-btn:not(:disabled) {
+  animation: pulse 2s infinite;
+}
+
+.save-btn:not(:disabled):hover {
+  animation: none;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .user-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .profile-tabs {
+    flex-direction: column;
+  }
+  
+  .booking-card,
+  .order-card {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .booking-actions,
+  .order-actions {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .booking-actions button,
+  .order-actions button {
+    flex: 1;
+  }
+
+  .admin-actions,
+  .moderator-actions,
+  .staff-actions,
+  .courier-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .moderation-filters {
+    flex-direction: column;
+  }
+
+  .moderation-filters .filter-btn {
+    text-align: center;
+  }
+
+  .moderation-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .approve-btn,
+  .reject-btn {
+    width: 100%;
+  }
+
+  .reviews-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: stretch;
+  }
+  
+  .write-review-btn {
+    justify-content: center;
+  }
+  
+  .review-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .review-status {
+    align-self: flex-start;
+  }
+  
+  .reviews-stats {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .review-actions {
+    justify-content: center;
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    flex: 1;
+    justify-content: center;
+    max-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .review-card {
+    padding: 20px;
+  }
+  
+  .review-title h4 {
+    font-size: 16px;
+  }
+  
+  .stars {
+    font-size: 16px;
+  }
+  
+  .review-comment {
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .role-panel {
+    padding: 20px;
+  }
+
+  .admin-btn,
+  .moderator-btn,
+  .staff-btn,
+  .courier-btn {
+    min-height: 50px;
+    font-size: 13px;
+  }
+}

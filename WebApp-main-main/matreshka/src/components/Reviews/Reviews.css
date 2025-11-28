@@ -1,0 +1,184 @@
+.reviews-section {
+  padding: 40px 20px;
+  background-color: white;
+}
+
+.reviews-section h2 {
+  color: #8B0000;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 28px;
+}
+
+.reviews-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+}
+
+.rating-overview {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.average-rating {
+  text-align: center;
+}
+
+.rating-number {
+  display: block;
+  font-size: 32px;
+  font-weight: bold;
+  color: #8B0000;
+}
+
+.stars {
+  font-size: 18px;
+  color: #ffd700;
+  margin: 5px 0;
+}
+
+.reviews-count {
+  color: #666;
+  font-size: 14px;
+}
+
+.add-review-btn {
+  padding: 12px 24px;
+  background-color: #8B0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.add-review-btn:hover:not(:disabled) {
+  background-color: #A52A2A;
+}
+
+.add-review-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.reviews-filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background-color: #8B0000;
+  color: white;
+  border-color: #8B0000;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.review-card {
+  background: #f8f8f8;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid #eee;
+}
+
+.review-card.pending {
+  border-left: 4px solid #ffa500;
+  background-color: #fff8e1;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.reviewer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reviewer-info strong {
+  color: #333;
+}
+
+.review-date {
+  color: #666;
+  font-size: 12px;
+}
+
+.review-rating {
+  color: #ffd700;
+  font-size: 16px;
+}
+
+.review-comment {
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.review-restaurant {
+  color: #666;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.moderation-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.approve-btn {
+  padding: 6px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.reject-btn {
+  padding: 6px 12px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.pending-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  background-color: #ffa500;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-top: 10px;
+}
