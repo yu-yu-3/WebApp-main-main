@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useModal } from '../../context/ModalContext';
 import './Auth.css';
 
 const Login = () => {
@@ -11,7 +11,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
-  const { showLogin, closeLogin, openRegister } = useModal();
+  const navigate = useNavigate();
 
   const validateForm = () => {
     const newErrors = {};
@@ -29,7 +29,7 @@ const Login = () => {
     setIsLoading(true);
     try {
       await login(formData);
-      closeLogin();
+      navigate('/'); // Перенаправляем на главную после входа
     } catch (error) {
       setErrors({ submit: error.message });
     } finally {
@@ -43,51 +43,53 @@ const Login = () => {
     if (errors.submit) setErrors(prev => ({ ...prev, submit: '' }));
   };
 
-  const switchToRegister = () => {
-    closeLogin();
-    openRegister();
-  };
-
-  if (!showLogin) return null;
-
   return (
-    <div className="auth-modal">
-      <div className="auth-content">
-        <button className="close-btn" onClick={closeLogin}>×</button>
-        <h2>Вход в аккаунт</h2>
-        
-        {errors.submit && <div className="error-message">{errors.submit}</div>}
-        
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <input
-              type="email"
-              placeholder="Email"
-              value={formData.email}
-              onChange={(e) => handleChange('email', e.target.value)}
-              className={errors.email ? 'error' : ''}
-            />
-            {errors.email && <span className="field-error">{errors.email}</span>}
+    <div className="auth-page">
+      <div className="auth-container">
+        <div className="auth-content">
+          <h2>Вход в аккаунт</h2>
+          
+          {errors.submit && <div className="error-message">{errors.submit}</div>}
+          
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                type="email"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+                className={errors.email ? 'error' : ''}
+              />
+              {errors.email && <span className="field-error">{errors.email}</span>}
+            </div>
+
+            <div className="form-group">
+              <input
+                type="password"
+                placeholder="Пароль"
+                value={formData.password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                className={errors.password ? 'error' : ''}
+              />
+              {errors.password && <span className="field-error">{errors.password}</span>}
+            </div>
+
+            <button type="submit" className="auth-submit-btn" disabled={isLoading}>
+              {isLoading ? 'Вход...' : 'Войти'}
+            </button>
+          </form>
+
+          <div className="auth-switch">
+            <p>Нет аккаунта? <Link to="/register" className="switch-link">Зарегистрироваться</Link></p>
           </div>
 
-          <div className="form-group">
-            <input
-              type="password"
-              placeholder="Пароль"
-              value={formData.password}
-              onChange={(e) => handleChange('password', e.target.value)}
-              className={errors.password ? 'error' : ''}
-            />
-            {errors.password && <span className="field-error">{errors.password}</span>}
+          {/* Тестовые данные */}
+          <div className="test-credentials">
+            <h4>Тестовые аккаунты:</h4>
+            <p><strong>Админ:</strong> admin@matreshka.ru / admin123</p>
+            <p><strong>Пользователь:</strong> user@test.com / user123</p>
+            <p><strong>Сотрудник:</strong> staff@matreshka.ru / staff123</p>
           </div>
-
-          <button type="submit" className="auth-submit-btn" disabled={isLoading}>
-            {isLoading ? 'Вход...' : 'Войти'}
-          </button>
-        </form>
-
-        <div className="auth-switch">
-          <p>Нет аккаунта? <button type="button" className="switch-btn" onClick={switchToRegister}>Зарегистрироваться</button></p>
         </div>
       </div>
     </div>

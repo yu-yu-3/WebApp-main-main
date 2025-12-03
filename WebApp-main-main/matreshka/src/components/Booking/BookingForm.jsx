@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { useModal } from '../../context/ModalContext';
+import ApiService from '../../utils/api';
 import './Booking.css';
 
 const BookingForm = () => {
@@ -54,67 +55,106 @@ const BookingForm = () => {
     '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'
   ];
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!user) {
-      alert('Пожалуйста, войдите в систему чтобы забронировать стол');
-      closeBooking();
-      return;
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!user) {
+    alert('Пожалуйста, войдите в систему чтобы забронировать стол');
+    closeBooking();
+    return;
+  }
+
+  setIsSubmitting(true);
+
+  try {
+    // 1. Получаем ID ресторана по названию
+    let restaurantId = null;
+    try {
+      const restaurants = await ApiService.getRestaurants();
+      const selectedRestaurant = restaurants.find(r => r.name === formData.restaurant);
+      
+      if (selectedRestaurant) {
+        restaurantId = selectedRestaurant.id;
+        console.log('Found restaurant ID:', restaurantId);
+      } else {
+        console.error('Restaurant not found:', formData.restaurant);
+      }
+    } catch (error) {
+      console.error('Error fetching restaurants:', error);
     }
 
-    setIsSubmitting(true);
+    // 2. Создаем объект бронирования для базы данных
+    const bookingData = {
+      user_id: user.id,
+      restaurant_id: restaurantId || 1, // По умолчанию первый ресторан
+      date: formData.date,
+      time: formData.time,
+      guests: parseInt(formData.guests),
+      customer_name: formData.name || user.name,
+      phone: formData.phone,
+      special_requests: formData.specialRequests || '',
+      status: 'pending' // Статус "ожидает подтверждения"
+    };
 
+    console.log('Sending booking to API:', bookingData);
+
+    // 3. Сохраняем в базу данных через API
+    let apiResponse;
     try {
-      // Создаем объект бронирования с ВСЕМИ полями
+      // Пробуем использовать API
+      apiResponse = await ApiService.createBooking(bookingData);
+      console.log('API response:', apiResponse);
+    } catch (apiError) {
+      console.error('API error, saving to localStorage:', apiError);
+      
+      // Если API не работает, сохраняем в localStorage как резервный вариант
       const newBooking = {
         id: Date.now(),
+        ...bookingData,
         restaurantName: formData.restaurant,
-        date: formData.date,
-        time: formData.time,
-        guests: formData.guests,
-        customerName: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        specialRequests: formData.specialRequests,
-        status: 'confirmed',
+        customerName: formData.name || user.name,
+        email: formData.email || user.email,
         createdAt: new Date().toISOString()
       };
 
-      console.log('Saving booking:', newBooking); // Для отладки
-
-      // Сохраняем в localStorage
       const userBookings = JSON.parse(localStorage.getItem(`user_bookings_${user.id}`)) || [];
-      userBookings.unshift(newBooking); // Добавляем в начало массива
+      userBookings.unshift(newBooking);
       localStorage.setItem(`user_bookings_${user.id}`, JSON.stringify(userBookings));
-
-      // Показываем уведомление
-      alert(`Стол успешно забронирован в ресторане "${formData.restaurant}" на ${formData.date} в ${formData.time}!`);
       
-      // Сбрасываем форму
-      setFormData({
-        date: '',
-        time: '',
-        guests: 2,
-        name: user.name || '',
-        phone: '',
-        email: user.email || '',
-        specialRequests: '',
-        restaurant: restaurants.length > 0 ? restaurants[0].name || restaurants[0] : ''
-      });
-      
-      closeBooking();
-      
-      // Отправляем событие обновления
-      window.dispatchEvent(new Event('bookingUpdated'));
-      
-    } catch (error) {
-      console.error('Booking error:', error);
-      alert('Произошла ошибка при бронировании. Попробуйте снова.');
-    } finally {
-      setIsSubmitting(false);
+      apiResponse = { id: newBooking.id, message: 'Saved to localStorage' };
     }
-  };
+
+    // 4. Показываем уведомление
+    if (apiResponse.id) {
+      alert(`Стол успешно забронирован в ресторане "${formData.restaurant}" на ${formData.date} в ${formData.time}!`);
+    } else {
+      alert('Бронирование создано, но возникли проблемы с сохранением.');
+    }
+    
+    // 5. Сбрасываем форму
+    setFormData({
+      date: '',
+      time: '',
+      guests: 2,
+      name: user.name || '',
+      phone: '',
+      email: user.email || '',
+      specialRequests: '',
+      restaurant: restaurants.length > 0 ? restaurants[0].name || restaurants[0] : ''
+    });
+    
+    closeBooking();
+    
+    // 6. Отправляем событие обновления
+    window.dispatchEvent(new Event('bookingUpdated'));
+    
+  } catch (error) {
+    console.error('Booking error:', error);
+    alert('Произошла ошибка при бронировании. Попробуйте снова.');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const handleChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));

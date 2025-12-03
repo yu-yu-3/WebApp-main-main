@@ -1,148 +1,97 @@
 import React, { useState, useEffect } from 'react';
 import { useModal } from '../../context/ModalContext';
 import './Events.css';
+import { useAuth } from '../../context/AuthContext';
+import { canManageEvents } from '../../utils/helpers';
 
 const Events = () => {
+  const { user } = useAuth();
   const [events, setEvents] = useState([]);
   const [activeTab, setActiveTab] = useState('upcoming');
   const { openEventRegistration, openPromoCode, setIsCartOpen } = useModal();
 
   useEffect(() => {
-    // Моковые данные с будущими мероприятиями и акциями
-    const mockEvents = [
-      {
-        id: 1,
-        title: 'Русские вечера с живой музыкой',
-        type: 'event',
-        date: '2024-12-15',
-        time: '19:00',
-        location: 'Matreshka Центр',
-        description: 'Живая народная музыка, традиционные танцы и угощения. Незабываемая атмосфера русского гостеприимства!',
-        image: '/img/events/folk-evening.jpg',
-        price: 1500,
-        availableSpots: 25,
-        isActive: true
-      },
-      {
-        id: 2,
-        title: 'Мастер-класс по приготовлению пельменей',
-        type: 'event',
-        date: '2024-12-20',
-        time: '15:00',
-        location: 'Matreshka Север',
-        description: 'Научитесь готовить настоящие русские пельмени от нашего шеф-повара. Все участники получат сертификат и заберут домой свои кулинарные творения!',
-        image: '/img/events/pelmeni-masterclass.jpg',
-        price: 2000,
-        availableSpots: 12,
-        isActive: true
-      },
-      {
-        id: 3,
-        title: 'Скидка 20% на все блюда',
-        type: 'promotion',
-        date: '2024-12-01',
-        endDate: '2024-12-31',
-        description: 'Специальное предложение декабря для всех гостей наших ресторанов. Действует на все блюда из меню, включая напитки и десерты.',
-        code: 'DECEMBER20',
-        discount: 20,
-        minOrder: 0,
-        isActive: true
-      },
-      {
-        id: 4,
-        title: 'Бесплатная доставка',
-        type: 'promotion',
-        date: '2024-12-01',
-        endDate: '2024-12-31',
-        description: 'Бесплатная доставка при заказе от 1000 рублей. Быстрая доставка в течение 30-45 минут по всему городу.',
-        code: 'FREEDELIVERY',
-        discount: 0,
-        minOrder: 1000,
-        isActive: true
-      },
-      {
-        id: 5,
-        title: 'Дегустация русских настоек',
-        type: 'event',
-        date: '2025-01-10',
-        time: '20:00',
-        location: 'Matreshka Центр',
-        description: 'Эксклюзивная дегустация традиционных русских настоек в сопровождении закусок и интересных историй от нашего сомелье',
-        image: '/img/events/nastoyka-tasting.jpg',
-        price: 2500,
-        availableSpots: 15,
-        isActive: true
-      },
-      {
-        id: 6,
-        title: 'Новогодний ужин',
-        type: 'event',
-        date: '2024-12-31',
-        time: '22:00',
-        location: 'Matreshka Центр',
-        description: 'Специальный новогодний ужин с праздничной программой, живой музыкой и фейерверком. Встречаем Новый год в русских традициях!',
-        image: '/img/events/new-year.jpg',
-        price: 5000,
-        availableSpots: 50,
-        isActive: true
-      },
-      {
-        id: 7,
-        title: 'Скидка 15% на выпечку',
-        type: 'promotion',
-        date: '2024-12-01',
-        endDate: '2024-12-25',
-        description: 'Специальная скидка на всю свежую выпечку: пироги, расстегаи, кулебяки и традиционные русские десерты.',
-        code: 'BAKERY15',
-        discount: 15,
-        minOrder: 500,
-        isActive: true
-      },
-      {
-        id: 8,
-        title: 'Кулинарный вечер "Вкусы России"',
-        type: 'event',
-        date: '2025-01-25',
-        time: '18:30',
-        location: 'Matreshka Юг',
-        description: 'Путешествие по регионам России через кухню. От карельских калиток до дальневосточных морепродуктов.',
-        image: '/img/events/russian-tastes.jpg',
-        price: 3000,
-        availableSpots: 20,
-        isActive: true
-      }
-    ];
-    
- // Фильтруем мероприятия по активным ресторанам
-    const filterEventsByActiveRestaurants = (events) => {
-      const savedRestaurants = localStorage.getItem('restaurants');
-      if (savedRestaurants) {
-        const parsedRestaurants = JSON.parse(savedRestaurants);
-        const activeRestaurantNames = parsedRestaurants
-          .filter(restaurant => restaurant.isActive !== false)
-          .map(restaurant => restaurant.name);
+    const loadEvents = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/events?active=true');
+        const data = await response.json();
         
-        return events.filter(event => 
-          !event.location || activeRestaurantNames.includes(event.location)
-        );
+        // Преобразуем данные из API в формат, который ожидает компонент
+        const formattedEvents = data.map(event => ({
+          id: event.id,
+          title: event.title,
+          description: event.description,
+          type: event.type,
+          date: event.date || event.start_date,
+          endDate: event.end_date,
+          time: event.time,
+          end_time: event.end_time,
+          location: event.location,
+          price: event.price,
+          // Используем promo_code из API вместо code
+          code: event.promo_code,
+          // Используем discount_percent из API вместо discount
+          discount: event.discount_percent,
+          // Используем min_order_amount из API вместо minOrder
+          minOrder: event.min_order_amount,
+          image: event.image,
+          max_participants: event.max_participants,
+          current_participants: event.current_participants,
+          // Вычисляем доступные места
+          availableSpots: event.max_participants ? 
+            event.max_participants - (event.current_participants || 0) : 
+            null
+        }));
+        
+        setEvents(formattedEvents);
+      } catch (error) {
+        console.error('Error loading events:', error);
+        // Используем моковые данные в случае ошибки
+        const mockEvents = [
+          {
+            id: 1,
+            title: 'Русские вечера с живой музыкой',
+            type: 'event',
+            date: '2024-12-15',
+            time: '19:00',
+            location: 'Matreshka Центр',
+            description: 'Живая народная музыка, традиционные танцы и угощения. Незабываемая атмосфера русского гостеприимства!',
+            image: '/img/events/folk-evening.jpg',
+            price: 1500,
+            availableSpots: 25,
+            isActive: true
+          },
+          {
+            id: 2,
+            title: 'Мастер-класс по приготовлению пельменей',
+            type: 'event',
+            date: '2024-12-20',
+            time: '15:00',
+            location: 'Matreshka Север',
+            description: 'Научитесь готовить настоящие русские пельмени от нашего шеф-повара. Все участники получат сертификат и заберут домой свои кулинарные творения!',
+            image: '/img/events/pelmeni-masterclass.jpg',
+            price: 2000,
+            availableSpots: 12,
+            isActive: true
+          },
+          {
+            id: 3,
+            title: 'Скидка 20% на все блюда',
+            type: 'promotion',
+            date: '2024-12-01',
+            endDate: '2024-12-31',
+            description: 'Специальное предложение декабря для всех гостей наших ресторанов. Действует на все блюда из меню, включая напитки и десерты.',
+            code: 'DECEMBER20',
+            discount: 20,
+            minOrder: 0,
+            isActive: true
+          }
+        ];
+        setEvents(mockEvents);
       }
-      return events;
     };
-
-    const filteredEvents = filterEventsByActiveRestaurants(mockEvents);
-
-      // Фильтруем только активные мероприятия (будущие и текущие)
-    const activeEvents = filteredEvents.filter(event => {
-      if (event.type === 'promotion') {
-        // Для акций проверяем дату окончания
-        return new Date(event.endDate) >= new Date();
-      } else {
-        // Для мероприятий проверяем дату проведения
-        return new Date(event.date) >= new Date();
-      }
-    });
     
-    setEvents(activeEvents);
+    loadEvents();
   }, []);
 
   const filteredEvents = events.filter(event => 
@@ -159,6 +108,7 @@ const Events = () => {
   };
 
   const formatDate = (dateString) => {
+    if (!dateString) return '';
     return new Date(dateString).toLocaleDateString('ru-RU', {
       day: 'numeric',
       month: 'long',
@@ -167,10 +117,12 @@ const Events = () => {
   };
 
   const isEventUpcoming = (eventDate) => {
+    if (!eventDate) return false;
     return new Date(eventDate) >= new Date();
   };
 
   const getDaysUntilEvent = (eventDate) => {
+    if (!eventDate) return 0;
     const today = new Date();
     const event = new Date(eventDate);
     const diffTime = event - today;
@@ -178,9 +130,49 @@ const Events = () => {
     return diffDays;
   };
 
+  // Функция для проверки, активна ли акция
+  const isPromotionActive = (event) => {
+    if (event.type !== 'promotion') return true;
+    
+    const today = new Date();
+    const startDate = event.date ? new Date(event.date) : null;
+    const endDate = event.endDate ? new Date(event.endDate) : null;
+    
+    if (startDate && endDate) {
+      return today >= startDate && today <= endDate;
+    } else if (startDate) {
+      return today >= startDate;
+    } else if (endDate) {
+      return today <= endDate;
+    }
+    
+    return true;
+  };
+
+  // Фильтруем события: для мероприятий - будущие, для акций - активные
+  const displayEvents = filteredEvents.filter(event => {
+    if (event.type === 'event') {
+      return isEventUpcoming(event.date);
+    } else if (event.type === 'promotion') {
+      return isPromotionActive(event);
+    }
+    return true;
+  });
+
   return (
     <section className="events-section">
-      <h2>События и Акции</h2>
+      <div className="events-header">
+        <h2>События и Акции</h2>
+        
+        {canManageEvents(user) && (
+          <button 
+            className="btn-manage-events"
+            onClick={() => window.location.href = '/admin/events'}
+          >
+            ⚙️ Управление
+          </button>
+        )}
+      </div>
       
       <div className="events-tabs">
         <button 
@@ -198,7 +190,7 @@ const Events = () => {
       </div>
 
       <div className="events-grid">
-        {filteredEvents.map(event => (
+        {displayEvents.map(event => (
           <div key={event.id} className={`event-card ${event.type}`}>
             {event.image && (
               <div className="event-image-container">
@@ -226,29 +218,29 @@ const Events = () => {
                   <p className="event-date">
                     📅 {formatDate(event.date)}
                     {event.time && ` в ${event.time}`}
-                    {event.endDate && ` - ${formatDate(event.endDate)}`}
+                    {event.endDate && event.type === 'promotion' && ` - ${formatDate(event.endDate)}`}
                   </p>
                 )}
                 
-                {event.location && (
+                {event.location && event.type === 'event' && (
                   <p className="event-location">📍 {event.location}</p>
                 )}
                 
-                {event.price && event.price > 0 && (
+                {event.price && event.price > 0 && event.type === 'event' && (
                   <p className="event-price">💰 {event.price} ₽ с человека</p>
                 )}
                 
-                {event.availableSpots && (
+                {event.availableSpots !== null && event.availableSpots !== undefined && event.type === 'event' && (
                   <p className="event-spots">👥 Осталось мест: {event.availableSpots}</p>
                 )}
                 
-                {event.code && (
+                {event.code && event.type === 'promotion' && (
                   <div className="promo-code">
                     <p className="promo-code-text">🎟 Промокод: <strong>{event.code}</strong></p>
-                    {event.discount > 0 && (
+                    {event.discount && event.discount > 0 && (
                       <p className="discount-info">🎯 Скидка: {event.discount}%</p>
                     )}
-                    {event.minOrder > 0 && (
+                    {event.minOrder && event.minOrder > 0 && (
                       <p className="min-order">📦 Минимальный заказ: {event.minOrder} ₽</p>
                     )}
                   </div>
@@ -259,8 +251,10 @@ const Events = () => {
                 <button 
                   className="event-register-btn"
                   onClick={() => handleEventRegister(event)}
+                  disabled={event.availableSpots !== null && event.availableSpots <= 0}
                 >
-                  📝 Зарегистрироваться
+                  {event.availableSpots !== null && event.availableSpots <= 0 ? 
+                    '❌ Мест нет' : '📝 Зарегистрироваться'}
                 </button>
               ) : (
                 <button 
@@ -275,7 +269,7 @@ const Events = () => {
         ))}
       </div>
 
-      {filteredEvents.length === 0 && (
+      {displayEvents.length === 0 && (
         <div className="no-events">
           <div className="no-events-icon">📅</div>
           <h3>Пока нет доступных мероприятий</h3>

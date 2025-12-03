@@ -1,143 +1,84 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { USER_ROLES } from '../utils/constants';
-import ApiService from '../utils/api';
+import React, { createContext, useState, useContext } from 'react';
 
 const AuthContext = createContext();
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth must be used within AuthProvider');
   }
   return context;
 };
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // Загружаем пользователей при инициализации
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const usersData = await ApiService.getUsers();
-        setUsers(usersData);
-        
-        // Проверяем авторизацию
-        const token = localStorage.getItem('token');
-        const userData = localStorage.getItem('userData');
-        
-        if (token && userData) {
-          const parsedUserData = JSON.parse(userData);
-          // Проверяем, существует ли пользователь в базе
-          const userExists = usersData.some(u => u.id === parsedUserData.id);
-          if (userExists) {
-            setUser(parsedUserData);
-          } else {
-            localStorage.removeItem('token');
-            localStorage.removeItem('userData');
-          }
-        }
-      } catch (error) {
-        console.error('Error loading users:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUsers();
-  }, []);
+  const [loading, setLoading] = useState(false);
 
   const login = async (credentials) => {
+    setLoading(true);
     try {
-      const userData = await ApiService.login(credentials);
-      
-      localStorage.setItem('token', 'user-token-' + userData.id);
-      localStorage.setItem('userData', JSON.stringify(userData));
-      setUser(userData);
+      // Тестовые пользователи
+      const testUsers = [
+        { id: 1, name: 'Тестовый Пользователь', email: 'user@test.com', password: 'user123', role: 'user', phone: '+7 (999) 678-90-12' },
+        { id: 2, name: 'Администратор', email: 'admin@matreshka.ru', password: 'admin123', role: 'admin', phone: '+7 (999) 123-45-67' },
+        { id: 3, name: 'Сотрудник Ресторана', email: 'staff@matreshka.ru', password: 'staff123', role: 'staff', phone: '+7 (999) 345-67-89', restaurant: 'Matreshka Центр' },
+        { id: 4, name: 'Курьер Доставкин', email: 'courier@matreshka.ru', password: 'courier123', role: 'courier', phone: '+7 (999) 567-89-01', vehicle: 'Велосипед' }
+      ];
 
-      return userData;
+      const foundUser = testUsers.find(
+        u => u.email === credentials.email && u.password === credentials.password
+      );
+
+      if (!foundUser) {
+        throw new Error('Неверный email или пароль');
+      }
+
+      const { password, ...userWithoutPassword } = foundUser;
+      setUser(userWithoutPassword);
+      localStorage.setItem('userData', JSON.stringify(userWithoutPassword));
+      return userWithoutPassword;
     } catch (error) {
-      console.error('Login error:', error);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const register = async (userData) => {
+    setLoading(true);
     try {
-      const newUser = await ApiService.register(userData);
-      
-      // Автоматически логиним после регистрации
-      localStorage.setItem('token', 'user-token-' + newUser.id);
-      localStorage.setItem('userData', JSON.stringify(newUser));
+      // Создаем нового пользователя
+      const newUser = {
+        id: Date.now(),
+        name: userData.name,
+        email: userData.email,
+        phone: userData.phone || '',
+        role: 'user',
+        loyalty_points: 0,
+        created_at: new Date().toISOString()
+      };
+
       setUser(newUser);
-
-      // Обновляем список пользователей
-      const updatedUsers = await ApiService.getUsers();
-      setUsers(updatedUsers);
-
+      localStorage.setItem('userData', JSON.stringify(newUser));
       return newUser;
     } catch (error) {
-      console.error('Registration error:', error);
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('userData');
     setUser(null);
-  };
-
-  const updateUserRole = async (userId, newRole) => {
-    try {
-      await ApiService.updateUserRole(userId, newRole);
-      
-      // Обновляем локальное состояние
-      const updatedUsers = users.map(u => 
-        u.id === userId ? { ...u, role: newRole } : u
-      );
-      setUsers(updatedUsers);
-
-      // Если обновляем текущего пользователя
-      if (user && user.id === userId) {
-        const updatedUser = { ...user, role: newRole };
-        setUser(updatedUser);
-        localStorage.setItem('userData', JSON.stringify(updatedUser));
-      }
-
-      return updatedUsers.find(u => u.id === userId);
-    } catch (error) {
-      console.error('Error updating user role:', error);
-      throw error;
-    }
-  };
-
-  const createUser = async (userData) => {
-    try {
-      const newUser = await ApiService.createUser(userData);
-      
-      // Обновляем список пользователей
-      const updatedUsers = await ApiService.getUsers();
-      setUsers(updatedUsers);
-
-      return newUser;
-    } catch (error) {
-      console.error('Error creating user:', error);
-      throw error;
-    }
+    localStorage.removeItem('userData');
   };
 
   const value = {
     user,
-    users,
+    loading,
     login,
     register,
-    logout,
-    loading,
-    updateUserRole,
-    createUser
+    logout
   };
 
   return (

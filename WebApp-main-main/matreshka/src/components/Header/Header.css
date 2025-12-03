@@ -1,226 +1,597 @@
-header {
+/* Header.css */
+.header {
+  background: linear-gradient(135deg, #8B0000 0%, #FF4500 100%);
+  color: white;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #f8f8f8;
-  border-bottom: 1px solid #ddd;
-  padding: 15px 20px;
-  flex-wrap: wrap;
-  gap: 15px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.headLeft {
+.header-left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 5px;
-  min-width: 200px;
+  gap: 0.5rem;
 }
 
-.logo-container {
+.logo-container a {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
+  text-decoration: none;
+  color: white;
 }
 
 .logo-container img {
-  width: 24px;
-  height: 24px;
-  display: block;
+  height: 50px;
+  width: auto;
 }
 
 .logo-container h1 {
-  color: #8B0000;
-  font-size: 24px;
+  font-size: 2rem;
   font-weight: bold;
   margin: 0;
-  white-space: nowrap;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .tagline {
-  margin: 0;
-  font-size: 0.9em;
-  color: #666;
+  font-size: 0.9rem;
   font-style: italic;
-  white-space: nowrap;
+  margin: 0;
+  opacity: 0.9;
 }
 
-.headRight {
+/* Desktop Navigation */
+.desktop-nav {
   display: flex;
   align-items: center;
-  gap: 30px;
-  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-.links {
+.main-links {
   display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
+  gap: 1.5rem;
 }
 
-.links a {
+.nav-link {
+  color: white;
   text-decoration: none;
-  color: #333;
-  font-size: 14px;
-  text-transform: lowercase;
-  padding: 5px 10px;
-  border-radius: 3px;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.3s;
+  text-transform: capitalize;
 }
 
-.links a:hover {
+.nav-link:hover {
+  color: #FFD700;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #FFD700;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Role Navigation */
+.role-navigation {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.role-section {
+  position: relative;
+}
+
+.role-badge {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.role-badge.staff {
+  background: #17a2b8;
+  color: white;
+}
+
+.role-badge.courier {
+  background: #20c997;
+  color: white;
+}
+
+.role-badge.admin {
+  background: #6f42c1;
+  color: white;
+}
+
+.role-links {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem;
+  display: none;
+  flex-direction: column;
+  min-width: 200px;
+  z-index: 1001;
+}
+
+.role-section:hover .role-links {
+  display: flex;
+}
+
+.role-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  transition: all 0.3s;
+}
+
+.role-link:hover {
+  background: #f8f9fa;
   color: #8B0000;
-  background-color: rgba(139, 0, 0, 0.1);
+}
+
+.role-link .icon {
+  font-size: 1rem;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.cart-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.cart-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cart-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #FFD700;
+  color: #8B0000;
+  font-size: 0.7rem;
+  font-weight: bold;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .auth-section {
   display: flex;
   align-items: center;
-  gap: 15px;
-  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .user-menu {
   display: flex;
   align-items: center;
-  gap: 15px;
-  font-size: 14px;
-  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.user-menu span {
-  color: #666;
-  white-space: nowrap;
+.user-greeting {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.user-role {
+  font-size: 0.7rem;
+  opacity: 0.8;
+  text-transform: capitalize;
+}
+
+.user-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.profile-btn, .logout-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
 }
 
 .profile-btn {
-  color: #8B0000;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
   text-decoration: none;
-  padding: 5px 10px;
-  border: 1px solid #8B0000;
-  border-radius: 3px;
-  white-space: nowrap;
-  font-size: 12px;
 }
 
 .profile-btn:hover {
-  background-color: #8B0000;
-  color: white;
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .logout-btn {
-  background: none;
-  border: 1px solid #ddd;
-  padding: 5px 10px;
-  border-radius: 3px;
-  font-size: 12px;
-  white-space: nowrap;
-  cursor: pointer;
+  background: rgba(255, 0, 0, 0.2);
+  color: white;
 }
 
 .logout-btn:hover {
-  border-color: #8B0000;
-  color: #8B0000;
+  background: rgba(255, 0, 0, 0.3);
 }
 
 .auth-buttons {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.auth-buttons button {
-  padding: 8px 15px;
-  background: none;
-  border: 1px solid #8B0000;
-  color: #8B0000;
-  border-radius: 3px;
-  font-size: 12px;
-  white-space: nowrap;
-  cursor: pointer;
-}
-
-.auth-buttons button:hover {
-  background-color: #8B0000;
+.login-btn, .register-btn {
+  padding: 0.5rem 1.5rem;
+  border: 2px solid white;
+  background: transparent;
   color: white;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
 }
 
-.but {
-  display: flex;
+.login-btn:hover, .register-btn:hover {
+  background: white;
+  color: #8B0000;
 }
 
 .booking-btn {
-  padding: 10px 15px;
-  background-color: #8B0000;
-  color: white;
+  background: #FFD700;
+  color: #8B0000;
   border: none;
-  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
-  white-space: nowrap;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .booking-btn:hover {
-  background-color: #A52A2A;
+  background: #FFC107;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
 }
 
-@media (max-width: 1024px) {
-  header {
-    flex-direction: column;
-    text-align: center;
-    gap: 20px;
-  }
-  
-  .headLeft {
-    align-items: center;
-    text-align: center;
-  }
-  
-  .headRight {
-    justify-content: center;
-    gap: 20px;
-  }
-  
-  .auth-section {
-    justify-content: center;
-  }
+/* Mobile Menu Button */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .headRight {
-    flex-direction: column;
-    gap: 15px;
+/* Mobile Menu */
+.mobile-menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mobile-menu {
+  background: white;
+  width: 320px;
+  height: 100%;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
   }
-  
-  .links {
-    justify-content: center;
-  }
-  
-  .auth-section {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .user-menu {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-  
-  .auth-buttons {
-    justify-content: center;
+  to {
+    transform: translateX(0);
   }
 }
 
-@media (max-width: 480px) {
-  .links {
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
+.mobile-menu-header {
+  background: #8B0000;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-menu-header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.close-menu-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobile-main-links {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-nav-link {
+  color: #333;
+  text-decoration: none;
+  font-size: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.mobile-nav-link:hover {
+  background: #f5f5f5;
+}
+
+.mobile-role-section {
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobile-role-toggle {
+  width: 100%;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 5px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-role-links {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-role-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: #333;
+  text-decoration: none;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.mobile-role-link:hover {
+  background: #f8f9fa;
+}
+
+.mobile-actions {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-cart-btn, .mobile-booking-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+.mobile-cart-btn {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #dee2e6;
+}
+
+.mobile-booking-btn {
+  background: #FFD700;
+  color: #8B0000;
+}
+
+.mobile-cart-count {
+  background: #FFD700;
+  color: #8B0000;
+  font-size: 0.7rem;
+  font-weight: bold;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+}
+
+.mobile-auth-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.mobile-user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  background: #f8f9fa;
+  border-radius: 5px;
+}
+
+.mobile-user-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.mobile-user-role {
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.mobile-profile-btn, .mobile-logout-btn,
+.mobile-login-btn, .mobile-register-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+}
+
+.mobile-profile-btn {
+  background: #17a2b8;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+.mobile-logout-btn {
+  background: #dc3545;
+  color: white;
+}
+
+.mobile-login-btn {
+  background: #007bff;
+  color: white;
+}
+
+.mobile-register-btn {
+  background: #28a745;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .desktop-nav {
+    gap: 1rem;
   }
   
-  .links a {
-    padding: 8px 15px;
+  .main-links {
+    gap: 1rem;
+  }
+  
+  .role-navigation {
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .desktop-nav {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .header-left {
+    flex: 1;
+  }
+}
+
+@media (max-width: 576px) {
+  .header {
+    padding: 1rem;
+  }
+  
+  .logo-container h1 {
+    font-size: 1.5rem;
+  }
+  
+  .logo-container img {
+    height: 40px;
+  }
+  
+  .tagline {
+    font-size: 0.8rem;
+  }
+  
+  .mobile-menu {
+    width: 280px;
   }
 }

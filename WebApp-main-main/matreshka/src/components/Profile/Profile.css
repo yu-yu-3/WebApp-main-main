@@ -1119,3 +1119,208 @@
     font-size: 13px;
   }
 }
+
+/* Стили для кнопок сотрудника */
+.staff-btn {
+    background: #f8f9fa;
+    border: 2px solid #dee2e6;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.staff-btn:hover {
+    background: #e9ecef;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.staff-btn.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+    font-weight: bold;
+}
+
+
+/* Стили для панели сотрудника */
+.staff-panel {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px 0;
+    border: 2px solid #4a6fa5;
+    box-shadow: 0 4px 15px rgba(74, 111, 165, 0.1);
+}
+
+.staff-panel h4 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #4a6fa5;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.staff-actions {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+/* Стили кнопок сотрудника как были раньше */
+.staff-btn {
+    background: #4a6fa5;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+    text-align: center;
+}
+
+.staff-btn:hover {
+    background: #3a5a8a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 111, 165, 0.3);
+}
+
+.staff-btn.active {
+    background: #2c3e50;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.staff-btn.active:hover {
+    background: #2c3e50;
+    transform: none;
+}
+
+.staff-info {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-top: 15px;
+    font-size: 14px;
+    color: #2c3e50;
+    border-left: 4px solid #4a6fa5;
+}
+
+.staff-info strong {
+    color: #4a6fa5;
+}
+
+/* Для активных кнопок курьера тоже (чтобы были одинаковые) */
+.courier-btn {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+    text-align: center;
+}
+
+.courier-btn:hover {
+    background: #219653;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(39, 174, 96, 0.3);
+}
+
+.courier-btn.active {
+    background: #1e8449;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Кнопки администратора */
+.admin-btn {
+    background: #8e44ad;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+    text-align: center;
+}
+
+.admin-btn:hover {
+    background: #7d3c98;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 68, 173, 0.3);
+}
+
+/* Кнопки модератора */
+.moderator-btn {
+    background: #f39c12;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+    text-align: center;
+}
+
+.moderator-btn:hover {
+    background: #d68910;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .staff-actions,
+    .courier-actions,
+    .admin-actions,
+    .moderator-actions {
+        flex-direction: column;
+    }
+    
+    .staff-btn,
+    .courier-btn,
+    .admin-btn,
+    .moderator-btn {
+        min-width: 100%;
+    }
+}

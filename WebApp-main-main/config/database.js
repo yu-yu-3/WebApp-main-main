@@ -153,20 +153,62 @@ class Database {
             `);
 
             // Таблица мероприятий
+           this.db.run(`
+    CREATE TABLE IF NOT EXISTS events (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        description TEXT,
+        date TEXT NOT NULL,
+        time TEXT,
+        end_time TEXT,
+        location TEXT,
+        max_participants INTEGER,
+        current_participants INTEGER DEFAULT 0,
+        price DECIMAL(10,2) DEFAULT 0,
+        type TEXT DEFAULT 'event', -- 'event' или 'promotion'
+        promo_code TEXT,
+        discount_percent INTEGER DEFAULT 0,
+        min_order_amount DECIMAL(10,2) DEFAULT 0,
+        image TEXT,
+        is_active BOOLEAN DEFAULT 1,
+        start_date TEXT,
+        end_date TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+`);
+
+// Таблица регистраций на мероприятия
+this.db.run(`
+    CREATE TABLE IF NOT EXISTS event_registrations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        event_id INTEGER,
+        user_id INTEGER,
+        user_name TEXT NOT NULL,
+        user_email TEXT NOT NULL,
+        user_phone TEXT NOT NULL,
+        guests INTEGER DEFAULT 1,
+        comments TEXT,
+        status TEXT DEFAULT 'registered', -- 'registered', 'attended', 'cancelled'
+        registered_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (event_id) REFERENCES events(id),
+        FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+`);
+
+            // Таблица столиков
             this.db.run(`
-                CREATE TABLE IF NOT EXISTS events (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    title TEXT NOT NULL,
-                    description TEXT,
-                    date TEXT NOT NULL,
-                    time TEXT,
-                    location TEXT,
-                    max_participants INTEGER,
-                    image TEXT,
-                    is_active BOOLEAN DEFAULT 1,
-                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
-            `);
+    CREATE TABLE IF NOT EXISTS tables (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        restaurant_id INTEGER,
+        table_number TEXT NOT NULL,
+        capacity INTEGER NOT NULL,
+        is_available BOOLEAN DEFAULT 1,
+        location TEXT,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (restaurant_id) REFERENCES restaurants(id)
+    )
+`);
 
             console.log('All tables created successfully');
             this.insertSampleData();
@@ -529,7 +571,7 @@ class Database {
 
     updateOrderStatus(orderId, status, courierId = null, callback) {
         let query, params;
-        
+
         if (status === 'delivered') {
             query = "UPDATE orders SET status = ?, courier_id = ?, completed_at = CURRENT_TIMESTAMP, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
             params = [status, courierId, orderId];
@@ -537,7 +579,7 @@ class Database {
             query = "UPDATE orders SET status = ?, courier_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
             params = [status, courierId, orderId];
         }
-        
+
         this.db.run(query, params, callback);
     }
 
@@ -592,35 +634,35 @@ class Database {
     // === ANALYTICS METHODS ===
     getAnalyticsData(callback) {
         const analytics = {};
-        
+
         // Получаем статистику пользователей
         this.db.get("SELECT COUNT(*) as total_users FROM users", (err, userCount) => {
             if (err) return callback(err);
             analytics.users = userCount.total_users;
-            
+
             // Статистика по ролям
             this.db.all("SELECT role, COUNT(*) as count FROM users GROUP BY role", (err, roles) => {
                 if (err) return callback(err);
                 analytics.usersByRole = roles;
-                
+
                 // Статистика ресторанов
                 this.db.get("SELECT COUNT(*) as total_restaurants FROM restaurants", (err, restaurantCount) => {
                     if (err) return callback(err);
                     analytics.restaurants = restaurantCount.total_restaurants;
-                    
+
                     this.db.get("SELECT COUNT(*) as active_restaurants FROM restaurants WHERE is_active = 1", (err, activeCount) => {
                         if (err) return callback(err);
                         analytics.activeRestaurants = activeCount.active_restaurants;
-                        
+
                         // Статистика заказов
                         this.db.get("SELECT COUNT(*) as total_orders FROM orders", (err, orderCount) => {
                             if (err) return callback(err);
                             analytics.orders = orderCount.total_orders;
-                            
+
                             this.db.all("SELECT status, COUNT(*) as count FROM orders GROUP BY status", (err, orderStatuses) => {
                                 if (err) return callback(err);
                                 analytics.ordersByStatus = orderStatuses;
-                                
+
                                 callback(null, analytics);
                             });
                         });
@@ -633,27 +675,27 @@ class Database {
     // === COURIER SPECIFIC METHODS ===
     getCourierStats(courierId, callback) {
         const stats = {};
-        
+
         // Общее количество доставок
         this.db.get("SELECT COUNT(*) as total_deliveries FROM orders WHERE courier_id = ?", [courierId], (err, total) => {
             if (err) return callback(err);
             stats.totalDeliveries = total.total_deliveries;
-            
+
             // Успешные доставки
             this.db.get("SELECT COUNT(*) as completed_deliveries FROM orders WHERE courier_id = ? AND status = 'delivered'", [courierId], (err, completed) => {
                 if (err) return callback(err);
                 stats.completedDeliveries = completed.completed_deliveries;
-                
+
                 // Текущие доставки
                 this.db.get("SELECT COUNT(*) as active_deliveries FROM orders WHERE courier_id = ? AND status IN ('accepted', 'on_way')", [courierId], (err, active) => {
                     if (err) return callback(err);
                     stats.activeDeliveries = active.active_deliveries;
-                    
+
                     // Общая сумма доставок
                     this.db.get("SELECT SUM(total) as total_earnings FROM orders WHERE courier_id = ? AND status = 'delivered'", [courierId], (err, earnings) => {
                         if (err) return callback(err);
                         stats.totalEarnings = earnings.total_earnings || 0;
-                        
+
                         callback(null, stats);
                     });
                 });

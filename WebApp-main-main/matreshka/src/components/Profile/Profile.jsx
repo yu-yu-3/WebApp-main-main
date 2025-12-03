@@ -6,6 +6,9 @@ import MenuManagement from '../MenuManagement/MenuManagement';
 import CourierDeliveries from '../Courier/CourierDeliveries';
 import CourierHistory from '../Courier/CourierHistory';
 import CourierStatus from '../Courier/CourierStatus';
+import StaffBookings from '../Staff/StaffBookings';
+import StaffOrders from '../Staff/StaffOrders';
+import StaffTables from '../Staff/StaffTables';
 import RestaurantManagement from '../RestaurantManagement/RestaurantManagement';
 import { useModal } from '../../context/ModalContext';
 import {
@@ -24,6 +27,17 @@ const Profile = () => {
     const [orders, setOrders] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [loyaltyPoints] = useState(user?.loyaltyPoints || 150);
+
+    console.log('🔴 DEBUG IMPORTS:');
+    console.log('🔴 StaffBookings:', StaffBookings);
+    console.log('🔴 StaffOrders:', StaffOrders);
+    console.log('🔴 StaffTables:', StaffTables);
+
+    // useEffect(() => {
+    //     console.log('🔴 PROFILE: User object:', user);
+    //     console.log('🔴 PROFILE: User role:', user?.role);
+    //     console.log('🔴 PROFILE: Is staff?', user?.role === USER_ROLES.STAFF);
+    // }, [user]);
 
     // Состояние для настроек
     const [settings, setSettings] = useState({
@@ -261,26 +275,80 @@ const Profile = () => {
         </div>
     );
 
-    // Панель сотрудника
-    const StaffPanel = () => (
-        <div className="role-panel staff-panel">
-            <h4>👨‍🍳 Панель сотрудника - {user.restaurant}</h4>
-            <div className="staff-actions">
-                <button className="staff-btn" onClick={() => alert('Бронирования ресторана - скоро!')}>
-                    📅 Управление бронированиями
-                </button>
-                <button className="staff-btn" onClick={() => alert('Заказы ресторана - скоро!')}>
-                    🍽️ Управление заказами
-                </button>
-                <button className="staff-btn" onClick={() => alert('Столики - скоро!')}>
-                    🪑 Управление столиками
-                </button>
+    const TempStaffBookings = () => {
+        console.log('🟡 TempStaffBookings rendered');
+        return (
+            <div style={{ padding: '40px', background: '#d4edda', borderRadius: '10px' }}>
+                <h2>📅 Управление бронированиями (Temp)</h2>
+                <p>Это временный компонент, пока не работает импорт.</p>
             </div>
-            <p className="staff-info">
-                <strong>Должность:</strong> {user.position || 'Сотрудник'}
-            </p>
-        </div>
-    );
+        );
+    };
+
+    const TempStaffOrders = () => {
+        console.log('🟡 TempStaffOrders rendered');
+        return (
+            <div style={{ padding: '40px', background: '#cce5ff', borderRadius: '10px' }}>
+                <h2>🍽️ Управление заказами (Temp)</h2>
+                <p>Это временный компонент, пока не работает импорт.</p>
+            </div>
+        );
+    };
+
+    const TempStaffTables = () => {
+        console.log('🟡 TempStaffTables rendered');
+        return (
+            <div style={{ padding: '40px', background: '#fff3cd', borderRadius: '10px' }}>
+                <h2>🪑 Управление столиками (Temp)</h2>
+                <p>Это временный компонент, пока не работает импорт.</p>
+            </div>
+        );
+    };
+
+    // Панель сотрудника
+    const StaffPanel = () => {
+        console.log('🔍 StaffPanel rendered, user:', user);
+
+        return (
+            <div className="role-panel staff-panel">
+                <h4>👨‍🍳 Панель сотрудника - {user.restaurant}</h4>
+                <div className="staff-actions">
+                    <button
+                        className={`staff-btn ${activeTab === 'staff-bookings' ? 'active' : ''}`}
+                        onClick={() => {
+                            console.log('🟢 Click: Управление бронированиями');
+                            console.log('🟢 Current activeTab:', activeTab);
+                            console.log('🟢 Setting to: staff-bookings');
+                            setActiveTab('staff-bookings');
+                        }}
+                    >
+                        📅 Управление бронированиями
+                    </button>
+                    <button
+                        className={`staff-btn ${activeTab === 'staff-orders' ? 'active' : ''}`}
+                        onClick={() => {
+                            console.log('🟢 Click: Управление заказами');
+                            setActiveTab('staff-orders');
+                        }}
+                    >
+                        🍽️ Управление заказами
+                    </button>
+                    <button
+                        className={`staff-btn ${activeTab === 'staff-tables' ? 'active' : ''}`}
+                        onClick={() => {
+                            console.log('🟢 Click: Управление столиками');
+                            setActiveTab('staff-tables');
+                        }}
+                    >
+                        🪑 Управление столиками
+                    </button>
+                </div>
+                <p className="staff-info">
+                    <strong>Должность:</strong> {user.position || 'Сотрудник'}
+                </p>
+            </div>
+        );
+    };
 
     // Панель курьера
     const CourierPanel = () => (
@@ -486,6 +554,14 @@ const Profile = () => {
             );
         }
 
+        if (user?.role === USER_ROLES.STAFF) {
+            baseTabs.push(
+                { id: 'staff-bookings', name: '📅 Бронирования ресторана', show: true },
+                { id: 'staff-orders', name: '🍽️ Заказы ресторана', show: true },
+                { id: 'staff-tables', name: '🪑 Столики ресторана', show: true }
+            );
+        }
+
         return baseTabs.filter(tab => tab.show);
     };
 
@@ -525,8 +601,11 @@ const Profile = () => {
             {/* Отображаем панели в зависимости от роли */}
             {user?.role === USER_ROLES.ADMIN && <AdminPanel />}
             {user?.role === USER_ROLES.MODERATOR && <ModeratorPanel />}
-            {user?.role === USER_ROLES.STAFF && <StaffPanel />}
-            {user?.role === USER_ROLES.COURIER && <CourierPanel />}
+            {user?.role === USER_ROLES.STAFF && (() => {
+                console.log('🔴 DEBUG: Rendering StaffPanel for user:', user);
+                console.log('🔴 DEBUG: User role is STAFF:', user?.role === USER_ROLES.STAFF);
+                return <StaffPanel />;
+            })()}            {user?.role === USER_ROLES.COURIER && <CourierPanel />}
 
             {/* Программа лояльности только для пользователей */}
             {user?.role === USER_ROLES.USER && (
@@ -755,6 +834,19 @@ const Profile = () => {
                 {activeTab === 'current-deliveries' && <CourierDeliveries />}
                 {activeTab === 'delivery-history' && <CourierHistory />}
                 {activeTab === 'update-status' && <CourierStatus />}
+
+                {activeTab === 'staff-bookings' && (() => {
+                    console.log('🟢 Rendering imported StaffBookings');
+                    return <StaffBookings />;
+                })()}
+                {activeTab === 'staff-orders' && (() => {
+                    console.log('🟢 Rendering imported StaffOrders');
+                    return <StaffOrders />;
+                })()}
+                {activeTab === 'staff-tables' && (() => {
+                    console.log('🟢 Rendering imported StaffTables');
+                    return <StaffTables />;
+                })()}
 
                 {activeTab === 'settings' && (
                     <div className="settings-form">
